@@ -9,6 +9,6 @@ abstract class Controller
 
     public function init()
     {
-        return $this->okResponse("success", ["Handiwork Api Version 1"]);
+        return $this->okResponse("success", ["FinTrack-Ledger Api Version 1"]);
     }
 }

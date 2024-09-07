@@ -129,7 +129,7 @@ trait ApiResponseTrait
      * @param null $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function ServerErrorResponse(string $message, $data = null): JsonResponse
+    public function serverErrorResponse(string $message, $data = null): JsonResponse
     {
         $data = $this->prepareApiResponse(false, $message, $data);
 
