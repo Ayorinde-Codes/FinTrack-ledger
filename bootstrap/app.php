@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (Throwable $exception, $request) {
+        $exceptions->render(function ($request, Throwable $exception) {
             // handle specific exceptions with custom error handler
             if (
                 $exception instanceof NotFoundHttpException ||
