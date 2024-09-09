@@ -23,6 +23,10 @@ class UserResource extends JsonResource
             'company' => new CompanyResource($this->whenLoaded('company')),
             'avatar' => $this->avatar,
             'status' => $this->status,
+            'gender' => $this->gender,
+            'dob' => $this->dob,
+            'phone' => $this->phone,
+            'address' => $this->address,
             'created_at' => $this->created_at,
         ];
     }

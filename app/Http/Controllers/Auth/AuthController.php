@@ -7,44 +7,37 @@ use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Enums\UserRole;
 use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
-    /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function register(AuthRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'avatar' => $request->avatar,
-            'company_id' => $request->company_id,
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'avatar' => $request->avatar,
+                'company_id' => $request->company_id,
+            ]);
 
-        $user->roles()->attach($request->role_id);
+            $user->roles()->attach(UserRole::USER->value);
 
-        // if role is assigned by default
-        // $user->roles()->attach(UserRole::USER->value);
+            $success['token'] = $user->createToken('MyApp')->plainTextToken;
+            $success['name'] = $user->name;
+            $success['username'] = $user->username;
+            $success['avatar'] = $user->avatar;
 
-        $success['token'] = $user->createToken('MyApp')->plainTextToken;
-        $success['name'] = $user->name;
-        $success['username'] = $user->username;
-        $success['avatar'] = $user->avatar;
-
-
-        return $this->createdResponse("User account created successfully", $success);
+            return $this->createdResponse("User account created successfully", $success);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
-    /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function login(Request $request)
     {
         try {
