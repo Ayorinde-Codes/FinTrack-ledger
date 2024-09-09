@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Get the list of all roles.
      */
     public function __invoke(Request $request)
     {
-        $roles = Role::all();
+        $roles = RoleResource::collection(Role::all());
 
         return $this->okResponse('Roles gotten successfully', $roles);
     }

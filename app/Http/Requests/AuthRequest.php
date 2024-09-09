@@ -27,7 +27,7 @@ class AuthRequest extends FormRequest
             'password' => 'required',
             'confirm_password' => 'required| same:password',
             'avatar' => 'string',
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => 'nullable|exists:roles,id',
             'company_id' => 'required|exists:companies,id',
         ];
     }
