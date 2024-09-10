@@ -71,17 +71,3 @@ class ExpenseController extends Controller
         }
     }
 }
-
-
-// try {
-
-//     $invoice = Invoice::create($request->validated());
-
-//     if ($invoice->recurrence) {
-//         $invoice->next_invoice_date = Carbon::parse($invoice->due_date)->addMonth();
-//         $invoice->save();
-//     }
-//     return $this->createdResponse('Invoice stored successfully');
-// } catch (Exception $e) {
-//     return $this->serverErrorResponse($e->getMessage());
-// }
