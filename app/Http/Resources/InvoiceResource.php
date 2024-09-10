@@ -17,7 +17,6 @@ class InvoiceResource extends JsonResource
         return [
             'id' => $this->id,
             'invoice_number' => $this->invoice_number,
-            'due_date' => $this->due_date,
             'customer_name' => $this->customer_name,
             'user_id' => $this->company_id,
             'company_id' => $this->company_id,
@@ -25,8 +24,9 @@ class InvoiceResource extends JsonResource
             'status' => $this->status,
             'company' => new CompanyResource($this->whenLoaded('company')),
             'user' => new UserResource($this->whenLoaded('user')),
+            'due_date' => $this->due_date,
+            'recurrence' => $this->recurrence,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -25,10 +26,14 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         try {
-            return $this->createdResponse(
-                'Invoice stored successfully',
-                Invoice::create($request->validated())
-            );
+
+            $invoice = Invoice::create($request->validated());
+
+            if ($invoice->recurrence) {
+                $invoice->next_invoice_date = Carbon::parse($invoice->due_date)->addMonth();
+                $invoice->save();
+            }
+            return $this->createdResponse('Invoice stored successfully');
         } catch (Exception $e) {
             return $this->serverErrorResponse($e->getMessage());
         }
@@ -57,10 +62,12 @@ class InvoiceController extends Controller
                 'invoice_number',
                 'invoice_date',
                 'due_date',
+                'recurrence',
+                'next_invoice_date',
             ]));
             return $this->okResponse('Invoice updated successfully');
         } catch (Exception $e) {
-            return $this->serverErrorResponse($e->getMessage());
+            return $this->serverErrorResponse('Error updating invoice', $e->getMessage());
         }
     }
 

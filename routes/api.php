@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\V1\ExpenseController;
+use App\Http\Controllers\V1\PaymentController;
+use App\Http\Controllers\V1\RoleController;
 use App\Http\Controllers\V1\InvoiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +22,5 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('/roles', RoleController::class);
 
 Route::apiResource('/invoice', InvoiceController::class);
+Route::apiResource('/payment', PaymentController::class);
+Route::apiResource('expenses', ExpenseController::class);
