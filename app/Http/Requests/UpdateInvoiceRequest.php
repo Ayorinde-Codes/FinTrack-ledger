@@ -11,7 +11,7 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,11 @@ class UpdateInvoiceRequest extends FormRequest
         return [
             'user_id' => 'required',
             'company_id' => 'required',
-            'invoice_number' => 'required|unique:invoices',
             'amount' => 'required',
             'due_date' => 'required|date',
-            'status' => 'required'
+            'status' => 'required',
+            'recurrence' => 'nullable',
+            'next_invoice_date' => 'nullable|date'
         ];
     }
 }

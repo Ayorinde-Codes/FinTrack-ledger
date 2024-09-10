@@ -11,7 +11,7 @@ class StoreInvoiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,12 +22,14 @@ class StoreInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
-            'company_id' => 'required',
+            'user_id' => 'required|exists:users,id',
+            'company_id' => 'required|exists:companies,id',
             'invoice_number' => 'required|unique:invoices',
             'amount' => 'required',
             'due_date' => 'required|date',
-            'status' => 'required'
+            'status' => 'required',
+            'recurrence' => 'nullable|string',
+            'next_invoice_date' => 'nullable|date'
         ];
     }
 }
