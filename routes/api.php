@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\BankTransactionController;
 use App\Http\Controllers\V1\ExpenseController;
 use App\Http\Controllers\V1\PaymentController;
 use App\Http\Controllers\V1\RoleController;
@@ -23,4 +24,5 @@ Route::get('/roles', RoleController::class);
 
 Route::apiResource('/invoice', InvoiceController::class);
 Route::apiResource('/payment', PaymentController::class);
-Route::apiResource('expenses', ExpenseController::class);
+Route::apiResource('/expenses', ExpenseController::class);
+Route::apiResource('/bankTransaction', BankTransactionController::class);
