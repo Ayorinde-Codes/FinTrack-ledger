@@ -43,7 +43,7 @@ class ExpenseController extends Controller
                 new ExpenseResource($expense)
             );
         } catch (\Exception $e) {
-            return $this->serverErrorResponse($e->getMessage());
+            return $this->serverErrorResponse('Error getting expense', $e->getMessage());
         }
     }
 
