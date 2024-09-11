@@ -30,7 +30,6 @@ class BankTransactionController extends Controller
         } catch (\Exception $e) {
             return $this->serverErrorResponse('Error creating transaction', $e->getMessage());
         }
-
     }
 
     public function show($id)
