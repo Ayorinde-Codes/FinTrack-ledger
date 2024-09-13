@@ -14,6 +14,15 @@ class ReportResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return
+            [
+                'id' => $this->id,
+                'company_id' => $this->company_id,
+                'report_type' => $this->report_type,
+                'data' => $this->data,
+                'company' => new CompanyResource($this->whenLoaded('company')),
+                'generated_at' => $this->generated_at,
+                'created_at' => $this->created_at,
+            ];
     }
 }

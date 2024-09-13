@@ -27,7 +27,14 @@ class InvoiceController extends Controller
     {
         try {
 
-            $invoice = Invoice::create($request->validated());
+            $invoice = Invoice::create([
+                'invoice_number' => Invoice::generateInvoiceNumber(),
+                'amount' => $request->amount,
+                'due_date' => Carbon::parse($request->due_date),
+                'status' => $request->status,
+                'recurrence' => $request->recurrence,
+                'next_invoice_date' => Carbon::parse($request->next_invoice_date),
+            ]);
 
             if ($invoice->recurrence) {
                 $invoice->next_invoice_date = Carbon::parse($invoice->due_date)->addMonth();
