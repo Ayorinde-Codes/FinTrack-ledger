@@ -3,6 +3,8 @@
 use App\Http\Controllers\V1\BankTransactionController;
 use App\Http\Controllers\V1\ExpenseController;
 use App\Http\Controllers\V1\PaymentController;
+use App\Http\Controllers\V1\PayrollController;
+use App\Http\Controllers\V1\ReportController;
 use App\Http\Controllers\V1\RoleController;
 use App\Http\Controllers\V1\InvoiceController;
 use Illuminate\Http\Request;
@@ -26,3 +28,5 @@ Route::apiResource('/invoice', InvoiceController::class);
 Route::apiResource('/payment', PaymentController::class);
 Route::apiResource('/expenses', ExpenseController::class);
 Route::apiResource('/bankTransaction', BankTransactionController::class);
+Route::apiResource('/report', ReportController::class);
+Route::apiResource('/payroll', PayrollController::class);

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GenerateReportRequest;
 use App\Http\Resources\ReportResource;
+use App\Models\Expense;
 use App\Models\Invoice;
+use App\Models\Payroll;
 use App\Models\Report;
 use Illuminate\Http\Request;
 
@@ -118,7 +120,9 @@ class ReportController extends Controller
 
         // Fetch payroll data
         $totalSalary = $payroll->sum('salary');
-        $totalTaxes = $payroll->sum('taxes');
+
+        $taxes = json_decode($payroll->taxes, true);
+        $totalTaxes = array_sum($taxes);
 
         return [
             'total_salary' => $totalSalary,
