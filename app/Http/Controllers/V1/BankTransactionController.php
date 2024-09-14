@@ -35,16 +35,16 @@ class BankTransactionController extends Controller
     public function show($id)
     {
         try {
-            $BankTransaction = BankTransaction::find($id);
-            if (!$BankTransaction)
-                return $this->notFoundResponse('BankTransaction not found');
+            $bankTransaction = BankTransaction::find($id);
+            if (!$bankTransaction)
+                return $this->notFoundResponse('Bank transaction not found');
 
             return $this->okResponse(
                 'BankTransaction retrieved successfully',
-                new BankTransactionResource($BankTransaction)
+                new BankTransactionResource($bankTransaction)
             );
         } catch (\Exception $e) {
-            return $this->serverErrorResponse('Error getting expense', $e->getMessage());
+            return $this->serverErrorResponse('Error getting bank transaction', $e->getMessage());
         }
     }
 
