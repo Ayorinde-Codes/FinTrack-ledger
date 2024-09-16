@@ -7,7 +7,7 @@ use App\Http\Requests\StorePayrollRequest;
 use App\Http\Requests\UpdatePayrollRequest;
 use App\Http\Resources\PayrollResource;
 use App\Models\Payroll;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PayrollController extends Controller
 {
@@ -21,11 +21,14 @@ class PayrollController extends Controller
     public function store(StorePayrollRequest $request)
     {
         try {
+            DB::beginTransaction();
             $payroll = Payroll::create($request->validated());
             if (!$payroll)
                 return $this->badRequestResponse('Payroll failed to create');
+            DB::commit();
             return $this->createdResponse('Payroll created successfully');
         } catch (\Exception $e) {
+            DB::rollback();
             return $this->serverErrorResponse(
                 'Error creating payroll',
                 $e->getMessage()
@@ -41,19 +44,25 @@ class PayrollController extends Controller
     public function update(UpdatePayrollRequest $request, Payroll $payroll)
     {
         try {
-            $updatedFields = $request->only(['salary', 'payment_date', 'taxes']);
+            DB::beginTransaction();
 
-            $updated = $payroll->update($updatedFields);
+            $payroll->fill($request->only([
+                'salary',
+                'payment_date',
+                'taxes'
+            ]));
 
-            if (!$updated)
-                return $this->badRequestResponse('Payroll failed to update');
+            if ($payroll->isDirty()) {
+                $payroll->save();
+                DB::commit();
+                return $this->okResponse('Payroll updated successfully');
+            }
 
-            return $this->okResponse('Payroll updated successfully', new PayrollResource($payroll));
+            DB::rollBack();
+            return $this->errorResponse('Payroll not updated');
         } catch (\Exception $e) {
-            return $this->serverErrorResponse(
-                'Error updating payroll',
-                $e->getMessage()
-            );
+            DB::rollBack();
+            return $this->serverErrorResponse('Error updating payroll', $e->getMessage());
         }
     }
 

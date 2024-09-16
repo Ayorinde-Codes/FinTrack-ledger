@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 use App\Http\Resources\InventoryResource;
 use App\Models\Inventory;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
@@ -16,16 +17,18 @@ class InventoryController extends Controller
 
         return $this->okResponse('Inventory retrieved successfully', InventoryResource::collection($inventory));
     }
-    public function store(Request $request)
+    public function store(StoreInventoryRequest $request)
     {
         try {
+            DB::beginTransaction();
             $inventory = Inventory::create($request->validated());
 
             if (!$inventory)
                 return $this->errorResponse('Error creating inventory');
-
+            DB::commit();
             return $this->createdResponse('Inventory created successfully');
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error creating inventory', $e->getMessage());
         }
     }
@@ -49,13 +52,24 @@ class InventoryController extends Controller
     public function update(UpdateInventoryRequest $request, Inventory $inventory)
     {
         try {
-            $inventory->update($request->only([
+            DB::beginTransaction();
+
+            $inventory->fill($request->only([
                 'product_name',
                 'quantity',
                 'price',
             ]));
-            return $this->okResponse('Inventory updated successfully');
+
+            if ($inventory->isDirty()) {
+                $inventory->save();
+                DB::commit();
+                return $this->okResponse('Inventory updated successfully');
+            }
+
+            DB::rollBack();
+            return $this->errorResponse('Inventory not updated');
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error updating inventory', $e->getMessage());
         }
     }

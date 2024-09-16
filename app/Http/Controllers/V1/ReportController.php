@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GenerateReportRequest;
 use App\Http\Resources\ReportResource;
 use App\Models\Expense;
+use App\Models\Inventory;
 use App\Models\Invoice;
 use App\Models\Payroll;
 use App\Models\Report;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -26,6 +27,7 @@ class ReportController extends Controller
     public function generate(GenerateReportRequest $request)
     {
         try {
+            DB::beginTransaction();
             $reportData = $this->generateReportData($request['report_type']);
 
             $report = [
@@ -39,8 +41,11 @@ class ReportController extends Controller
 
             if (!$createReport)
                 return $this->errorResponse('Error generating report');
+
+            DB::commit();
             return $this->okResponse('Report generated successfully', new ReportResource($createReport));
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error generating report', $e->getMessage());
         }
     }
@@ -98,7 +103,6 @@ class ReportController extends Controller
 
     private function generateInventoryReport()
     {
-        // Fetch inventory data
         $inventory = Inventory::all();
 
         $totalItems = $inventory->count();

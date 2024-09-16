@@ -9,7 +9,7 @@ use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use Exception;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -26,7 +26,7 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         try {
-
+            DB::beginTransaction();
             $invoice = Invoice::create([
                 'invoice_number' => Invoice::generateInvoiceNumber(),
                 'amount' => $request->amount,
@@ -40,8 +40,10 @@ class InvoiceController extends Controller
                 $invoice->next_invoice_date = Carbon::parse($invoice->due_date)->addMonth();
                 $invoice->save();
             }
+            DB::commit();
             return $this->createdResponse('Invoice stored successfully');
         } catch (Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse($e->getMessage());
         }
     }
@@ -65,15 +67,26 @@ class InvoiceController extends Controller
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
         try {
-            $invoice->update($request->only([
+            DB::beginTransaction();
+
+            $invoice->fill($request->only([
                 'invoice_number',
                 'invoice_date',
                 'due_date',
                 'recurrence',
                 'next_invoice_date',
             ]));
-            return $this->okResponse('Invoice updated successfully');
-        } catch (Exception $e) {
+
+            if ($invoice->isDirty()) {
+                $invoice->save();
+                DB::commit();
+                return $this->okResponse('Invoice updated successfully');
+            }
+
+            DB::rollBack();
+            return $this->errorResponse('Invoice not updated');
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error updating invoice', $e->getMessage());
         }
     }
