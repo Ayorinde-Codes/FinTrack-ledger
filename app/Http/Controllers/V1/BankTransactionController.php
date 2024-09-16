@@ -7,7 +7,7 @@ use App\Http\Requests\StoreBankTransactionRequest;
 use App\Http\Requests\UpdateBankTransactionRequest;
 use App\Http\Resources\BankTransactionResource;
 use App\Models\BankTransaction;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BankTransactionController extends Controller
 {
@@ -23,11 +23,15 @@ class BankTransactionController extends Controller
     public function store(StoreBankTransactionRequest $request)
     {
         try {
+            DB::beginTransaction();
+
             $transaction = BankTransaction::create($request->validated());
             if (!$transaction)
                 return $this->errorResponse('Unable to create bank transaction');
+            DB::commit();
             return $this->createdResponse('Bank transaction created successfully', new BankTransactionResource($transaction));
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error creating transaction', $e->getMessage());
         }
     }
@@ -51,12 +55,23 @@ class BankTransactionController extends Controller
     public function update(UpdateBankTransactionRequest $request, BankTransaction $bankTransaction)
     {
         try {
-            $bankTransaction->update($request->only([
+            DB::beginTransaction();
+
+            $bankTransaction->fill($request->only([
                 'transaction_type',
                 'transaction_date'
             ]));
-            return $this->okResponse('Bank transaction updated successfully');
+
+            if ($bankTransaction->isDirty()) {
+                $bankTransaction->save();
+                DB::commit();
+                return $this->okResponse('Bank transaction updated successfully');
+            }
+
+            DB::rollBack();
+            return $this->errorResponse('Bank transaction not updated');
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error updating bank transaction', $e->getMessage());
         }
     }

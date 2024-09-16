@@ -7,7 +7,7 @@ use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Http\Resources\ExpenseResource;
 use App\Models\Expense;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
@@ -24,9 +24,16 @@ class ExpenseController extends Controller
     public function store(StoreExpenseRequest $request)
     {
         try {
+            DB::beginTransaction();
+
             $expense = Expense::create($request->validated());
-            return $this->okResponse('Expense created successfully');
+
+            if (!$expense)
+                return $this->errorResponse('Unable to create expense');
+            DB::commit();
+            return $this->createdResponse('Expense created successfully', new ExpenseResource($expense));
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->serverErrorResponse('Error creating expense', $e->getMessage());
         }
     }
@@ -50,14 +57,25 @@ class ExpenseController extends Controller
     public function update(UpdateExpenseRequest $request, Expense $expense)
     {
         try {
-            $expense->update($request->only([
+            DB::beginTransaction();
+
+            $expense->fill($request->only([
                 'expense_category',
                 'amount',
                 'receipt'
             ]));
-            return $this->okResponse('Expense updated successfully');
+
+            if ($expense->isDirty()) {
+                $expense->save();
+                DB::commit();
+                return $this->okResponse('Expense updated successfully');
+            }
+
+            DB::rollBack();
+            return $this->errorResponse('Expense not updated');
         } catch (\Exception $e) {
-            return $this->serverErrorResponse('Error updating expense', $e->getMessage());
+            DB::rollBack();
+            return $this->serverErrorResponse('Error updating bank expense', $e->getMessage());
         }
     }
 
