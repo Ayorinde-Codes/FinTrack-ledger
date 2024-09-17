@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\UserRoles;
+use App\Enums\UserRole;
 use App\Models\Role;
 
 class RoleFactory extends Factory
@@ -13,7 +13,7 @@ class RoleFactory extends Factory
     public function definition()
     {
         // Randomly pick a role from the UserRoles enum
-        $roles = UserRoles::cases();
+        $roles = UserRole::cases();
         $role = $this->faker->randomElement($roles);
 
         return [

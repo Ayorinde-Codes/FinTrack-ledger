@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\V1\BankTransactionController;
 use App\Http\Controllers\V1\ExpenseController;
+use App\Http\Controllers\V1\InventoryController;
 use App\Http\Controllers\V1\PaymentController;
 use App\Http\Controllers\V1\PayrollController;
 use App\Http\Controllers\V1\ReportController;
 use App\Http\Controllers\V1\RoleController;
 use App\Http\Controllers\V1\InvoiceController;
+use App\Http\Controllers\V1\TaxController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -30,3 +32,5 @@ Route::apiResource('/expenses', ExpenseController::class);
 Route::apiResource('/bankTransaction', BankTransactionController::class);
 Route::apiResource('/report', ReportController::class);
 Route::apiResource('/payroll', PayrollController::class);
+Route::apiResource('/inventory', InventoryController::class);
+Route::apiResource('/tax', TaxController::class);
