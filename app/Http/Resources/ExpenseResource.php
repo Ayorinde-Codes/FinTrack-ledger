@@ -17,12 +17,12 @@ class ExpenseResource extends JsonResource
         return
             [
                 'id' => $this->id,
-                'user_id' => $this->company_id,
-                'company_id' => $this->company_id,
+                'user_id' => $this->client_id,
+                'client_id' => $this->client_id,
                 'expense_category' => $this->expense_category,
                 'amount' => $this->amount,
                 'receipt' => $this->receipt,
-                'company' => new CompanyResource($this->whenLoaded('company')),
+                'client' => new ClientResource($this->whenLoaded('client')),
                 'user' => new UserResource($this->whenLoaded('user')),
             ];
     }

@@ -23,7 +23,7 @@ class UpdateExpenseRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'company_id' => 'required|exists:companies,id',
+            'client_id' => 'required|exists:companies,id',
             'expense_category' => 'required',
             'amount' => 'required|numeric',
             'receipt' => 'nullable',

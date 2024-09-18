@@ -16,12 +16,12 @@ class PayrollResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'company_id' => $this->company_id,
+            'client_id' => $this->client_id,
             'user_id' => $this->user_id,
             'salary' => $this->salary,
             'payment_date' => $this->payment_date,
             'taxes' => $this->taxes,
-            'company' => new CompanyResource($this->whenLoaded('company')),
+            'client' => new ClientResource($this->whenLoaded('client')),
             'user' => new UserResource($this->whenLoaded('user')),
             'created_at' => $this->created_at
         ];

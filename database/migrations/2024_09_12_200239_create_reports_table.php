@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained();
+            $table->foreignId('client_id')->constrained();
             $table->string('report_type');
             $table->json('data'); // Store report data as JSON  totals, breakdowns, and calculations
             $table->timestamp('generated_at');

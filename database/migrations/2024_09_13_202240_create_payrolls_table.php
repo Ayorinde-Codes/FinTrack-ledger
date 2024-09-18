@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained();
+            $table->foreignId('client_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->decimal('salary', 15, 2);
             $table->date('payment_date');

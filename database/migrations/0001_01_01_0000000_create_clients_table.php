@@ -8,9 +8,12 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
+
+    protected $schemaTable = 'clients';
+
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create($this->schemaTable, function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -32,6 +35,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists($this->schemaTable);
     }
 };

@@ -22,7 +22,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'avatar' => $request->avatar,
-                'company_id' => $request->company_id,
+                'client_id' => $request->client_id,
             ]);
 
             $user->roles()->attach(UserRole::USER->value);
