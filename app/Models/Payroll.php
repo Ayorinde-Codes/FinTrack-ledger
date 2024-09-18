@@ -10,7 +10,7 @@ class Payroll extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id',
+        'client_id',
         'user_id',
         'salary',
         'payment_date',
@@ -29,9 +29,9 @@ class Payroll extends Model
         ];
     }
 
-    public function company()
+    public function client()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Client::class);
     }
 
     public function user()

@@ -17,10 +17,10 @@ class ReportResource extends JsonResource
         return
             [
                 'id' => $this->id,
-                'company_id' => $this->company_id,
+                'client_id' => $this->client_id,
                 'report_type' => $this->report_type,
                 'data' => $this->data,
-                'company' => new CompanyResource($this->whenLoaded('company')),
+                'client' => new ClientResource($this->whenLoaded('client')),
                 'generated_at' => $this->generated_at,
                 'created_at' => $this->created_at,
             ];

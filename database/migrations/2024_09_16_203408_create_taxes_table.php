@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('taxes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column: 'company_id')->constrained();
+            $table->foreignId(column: 'client_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->decimal('amount', 15, 2);
             $table->string('tax_type'); //Income Tax, Sales Tax

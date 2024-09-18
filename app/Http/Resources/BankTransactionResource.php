@@ -16,12 +16,12 @@ class BankTransactionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->company_id,
-            'company_id' => $this->company_id,
+            'user_id' => $this->client_id,
+            'client_id' => $this->client_id,
             'amount' => $this->amount,
             'transaction_type' => $this->transaction_type,
             'transaction_date' => $this->transaction_date,
-            'company' => new CompanyResource($this->whenLoaded('company')),
+            'client' => new ClientResource($this->whenLoaded('client')),
             'user' => new UserResource($this->whenLoaded('user')),
             'created_at' => $this->created_at,
         ];

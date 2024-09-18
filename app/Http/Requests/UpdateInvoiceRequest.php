@@ -23,7 +23,7 @@ class UpdateInvoiceRequest extends FormRequest
     {
         return [
             'user_id' => 'required',
-            'company_id' => 'required',
+            'client_id' => 'required',
             'amount' => 'required',
             'due_date' => 'required|date',
             'status' => 'required',

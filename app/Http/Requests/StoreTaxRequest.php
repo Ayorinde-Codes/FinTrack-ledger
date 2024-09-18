@@ -22,7 +22,7 @@ class StoreTaxRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id' => 'required|integer',
+            'client_id' => 'required|integer',
             'user_id' => 'required|integer',
             'amount' => 'required|numeric',
             'tax_type' => 'required|string',

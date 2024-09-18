@@ -31,7 +31,7 @@ class ReportController extends Controller
             $reportData = $this->generateReportData($request['report_type']);
 
             $report = [
-                'company_id' => auth()->user()->company_id,
+                'client_id' => auth()->user()->client_id,
                 'report_type' => $request['report_type'],
                 'data' => json_encode($reportData),
                 'generated_at' => now(),
@@ -68,11 +68,11 @@ class ReportController extends Controller
 
     private function generateFinancialReport()
     {
-        $companyId = auth()->user()->company_id;
+        $clientId = auth()->user()->client_id;
 
         // Example: Fetch total revenue and expenses
-        $totalRevenue = Invoice::where('company_id', $companyId)->sum('amount');
-        $totalExpenses = Expense::where('company_id', $companyId)->sum('amount');
+        $totalRevenue = Invoice::where('client_id', $clientId)->sum('amount');
+        $totalExpenses = Expense::where('client_id', $clientId)->sum('amount');
         $profit = $totalRevenue - $totalExpenses;
 
         return [
@@ -84,10 +84,10 @@ class ReportController extends Controller
 
     private function generateSalesReport()
     {
-        $companyId = auth()->user()->company_id;
+        $clientId = auth()->user()->client_id;
 
         // Fetch all invoices for the company
-        $invoices = Invoice::where('company_id', $companyId)->get();
+        $invoices = Invoice::where('client_id', $clientId)->get();
 
         // Calculate the totals
         $totalInvoices = $invoices->count();
@@ -118,9 +118,9 @@ class ReportController extends Controller
 
     private function generatePayrollReport()
     {
-        $companyId = auth()->user()->company_id;
+        $clientId = auth()->user()->client_id;
 
-        $payroll = Payroll::where('company_id', $companyId)->get();
+        $payroll = Payroll::where('client_id', $clientId)->get();
 
         // Fetch payroll data
         $totalSalary = $payroll->sum('salary');

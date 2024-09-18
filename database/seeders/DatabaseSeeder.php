@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Company;
+use App\Models\Client;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create 3 companies
-        Company::factory(3)->create();
+        Client::factory(3)->create();
 
         // Create 3 roles (Admin, Manager, User)
         Role::factory()->create(['name' => 'admin']);

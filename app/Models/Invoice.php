@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id',
+        'client_id',
         'user_id',
         'invoice_number',
         'amount',
@@ -22,9 +22,9 @@ class Invoice extends Model
 
     protected $dates = ['due_date', 'next_invoice_date'];
 
-    public function company()
+    public function client()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Client::class);
     }
 
     public function user()

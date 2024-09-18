@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('bank_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained();
+            $table->foreignId('client_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->decimal('amount', 15, 2);
             $table->string('transaction_type'); //debit or credit

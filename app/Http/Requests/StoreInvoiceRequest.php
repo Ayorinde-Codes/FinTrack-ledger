@@ -23,7 +23,7 @@ class StoreInvoiceRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'company_id' => 'required|exists:companies,id',
+            'client_id' => 'required|exists:companies,id',
             'invoice_number' => 'required|unique:invoices',
             'amount' => 'required',
             'due_date' => 'required|date',
