@@ -26,6 +26,8 @@ class ClientResource extends JsonResource
             'country' => $this->country,
             'postal_code' => $this->postal_code,
             'industry' => $this->industry,
+            'client_ips' => ClientIpResource::collection($this->whenLoaded('clientIps')),
+            'client_keys' => ClientKeyResource::collection($this->whenLoaded('clientKeys')),
         ];
     }
 }

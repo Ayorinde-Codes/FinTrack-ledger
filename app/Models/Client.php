@@ -32,4 +32,14 @@ class Client extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+
+    public function clientIps()
+    {
+        return $this->hasMany(ClientIp::class);
+    }
+
+    public function clientKeys()
+    {
+        return $this->hasMany(ClientKey::class);
+    }
 }
