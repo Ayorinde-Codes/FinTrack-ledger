@@ -16,6 +16,7 @@ trait ApiExceptionTrait
 
     public function renderApiException($exception)
     {
+        dd($exception);
         $responseData = $this->prepareApiExceptionData($exception);
         $payload = Arr::except($responseData, 'statusCode');
         $statusCode = $responseData['statusCode'];
@@ -78,7 +79,7 @@ trait ApiExceptionTrait
      */
     public function extractExceptionData(Throwable $exception): array
     {
-        if (config('app.debug') && ! $this->isHttpException($exception)) {
+        if (config('app.debug') && !$this->isHttpException($exception)) {
             $data = [
                 'message' => $exception->getMessage(),
                 'exception' => get_class($exception),

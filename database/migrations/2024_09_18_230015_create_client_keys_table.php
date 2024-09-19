@@ -6,13 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
-    protected $schemaTable = 'roles';
+    protected $schemaTable = 'client_keys';
 
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create($this->schemaTable, function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedInteger('client_id');
+            $table->string('private_key');
+            $table->string('public_key');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

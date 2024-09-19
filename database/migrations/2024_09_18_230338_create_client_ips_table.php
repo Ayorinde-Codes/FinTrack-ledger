@@ -6,13 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
-    protected $schemaTable = 'roles';
+    protected $schemaTable = 'client_ips';
 
     public function up(): void
     {
         Schema::create($this->schemaTable, function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedInteger('client_id');
+            $table->ipAddress('client_ip');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
