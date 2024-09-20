@@ -29,9 +29,10 @@ class ClientMiddleware
         if (!$response = $this->validateClientKey($private_key))
             return $this->unauthorizedResponse("Client private_key invalid");
 
-        dd($response);
-        // $clientId = $response->client
-        $request->merge(['private_key' => $private_key]);
+        $request->merge([
+            'private_key' => $private_key,
+            'client_id' => $response->client_id,
+        ]);
 
         return $next($request);
     }

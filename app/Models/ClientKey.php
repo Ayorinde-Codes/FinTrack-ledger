@@ -16,7 +16,7 @@ class ClientKey extends Model
         'public_key',
     ];
 
-    public function client()
+    public function clients()
     {
         return $this->belongsTo(Client::class, 'client_id');
     }

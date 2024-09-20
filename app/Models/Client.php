@@ -40,6 +40,6 @@ class Client extends Model
 
     public function clientKeys()
     {
-        return $this->hasMany(ClientKey::class);
+        return $this->hasOne(ClientKey::class);
     }
 }

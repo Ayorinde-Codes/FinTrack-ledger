@@ -11,12 +11,11 @@ class ValidateClientKeyAction
 
     public function execute($clientKey)
     {
-        $validateKey = ClientKey::where('private_key', $clientKey)->first();
-
+        $validateKey = ClientKey::wherePrivateKey($clientKey)->first();
         if (is_null($validateKey)) {
-            \abort(422, "Client / company with this key does not exist" . $clientKey);
+            \abort(422, "Client/ Company with this key: {$clientKey} does not exist");
         }
 
-        return $this->okResponse($validateKey);
+        return $validateKey;
     }
 }

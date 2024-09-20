@@ -1,15 +1,9 @@
 <?php
 
+use App\Exceptions\ApiExceptionHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Traits\ApiExceptionTrait;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -22,18 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function ($exception, Request $request) {
-            // handle specific exceptions with custom error handler
-            if (
-                $exception instanceof NotFoundHttpException ||
-                $exception instanceof MethodNotAllowedHttpException ||
-                $exception instanceof ModelNotFoundException ||
-                $exception instanceof AuthenticationException ||
-                $exception instanceof ValidationException
-            ) {
-
-                // Handle the exceptions using ApiExceptionTrait
-                return app(ApiExceptionTrait::class)->renderApiException($exception);
+        $exceptions->render(function (Throwable $exception, $request) {
+            if ($request->is('api/*')) {
+                // Use the ApiExceptionHandler class to handle exceptions
+                return app(ApiExceptionHandler::class)->renderApiException($exception);
             }
+
+            return parent::render($request, $exception);
         });
     })->create();
