@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Action\Report\GenerateReportAction;
+use App\Actions\Report\GenerateReportAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GenerateReportRequest;
 use App\Http\Resources\ReportResource;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Action\Report;
+namespace App\Actions\Report;
 use App\Models\Expense;
 use App\Models\Inventory;
 use App\Models\Invoice;

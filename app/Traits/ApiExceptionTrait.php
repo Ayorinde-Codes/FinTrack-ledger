@@ -9,14 +9,13 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 trait ApiExceptionTrait
 {
-
     public function renderApiException($exception)
     {
-        dd($exception);
         $responseData = $this->prepareApiExceptionData($exception);
         $payload = Arr::except($responseData, 'statusCode');
         $statusCode = $responseData['statusCode'];
@@ -29,7 +28,7 @@ trait ApiExceptionTrait
      * @param Throwable $exception
      * @return array
      */
-    public function prepareApiExceptionData(Throwable $exception): array
+    private function prepareApiExceptionData(Throwable $exception): array
     {
         $responseData['status'] = false;
         $message = $exception->getMessage();
@@ -41,7 +40,7 @@ trait ApiExceptionTrait
             $responseData['message'] = $message;
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = "Resource not found";
+            $responseData['message'] = "Unable to locate the {$this->modelNotFoundMessage($exception)} you requested.";
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthenticationException) {
             $responseData['message'] = "Unauthenticated";
@@ -52,7 +51,8 @@ trait ApiExceptionTrait
             $responseData['statusCode'] = 422;
         } else {
             $responseData['message'] = $this->prepareExceptionMessage($exception);
-            $responseData['statusCode'] = $this->isHttpException($exception) ? $exception->getStatusCode() : 500;
+            $responseData['statusCode'] = ($exception instanceof HttpExceptionInterface) ? $exception->getStatusCode() : 500;
+
             if ($debug = $this->extractExceptionData($exception)) {
                 $responseData['debug'] = $debug;
             }
@@ -61,9 +61,9 @@ trait ApiExceptionTrait
         return $responseData;
     }
 
-    public function prepareExceptionMessage($exception)
+    private function prepareExceptionMessage($exception)
     {
-        $exceptionMessage = empty($exception->getMessage()) ? "An unknown error occurred" : $exception->getMessage();
+        $exceptionMessage = $exception->getMessage() ?? "An unknown error occurred";
 
         if (Str::contains($exceptionMessage, "syntax error")) {
             $exceptionMessage = "Server error";
@@ -72,14 +72,22 @@ trait ApiExceptionTrait
         return $exceptionMessage;
     }
 
+    private function modelNotFoundMessage(ModelNotFoundException $exception): string
+    {
+        if (!is_null($exception->getModel())) {
+            return Str::lower(ltrim(preg_replace('/[A-Z]/', ' $0', class_basename($exception->getModel()))));
+        }
+        return 'resource';
+    }
+
     /**
      * Extraction of the error message from the exception
      * @param Throwable $exception
      * @return array
      */
-    public function extractExceptionData(Throwable $exception): array
+    private function extractExceptionData(Throwable $exception): array
     {
-        if (config('app.debug') && !$this->isHttpException($exception)) {
+        if (config('app.debug') && !($exception instanceof HttpExceptionInterface)) {
             $data = [
                 'message' => $exception->getMessage(),
                 'exception' => get_class($exception),

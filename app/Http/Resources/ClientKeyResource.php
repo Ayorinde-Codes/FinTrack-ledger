@@ -18,6 +18,8 @@ class ClientKeyResource extends JsonResource
             'id' => $this->id,
             'private_key' => $this->private_key,
             'public_key' => $this->public_key,
+            'client_id' => $this->client_id,
+            'client' => new ClientResource($this->whenLoaded('clients'))
         ];
     }
 }
