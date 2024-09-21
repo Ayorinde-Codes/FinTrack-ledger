@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,13 @@ class ClientMiddleware
 
         if (!$response = $this->validateClientKey($private_key))
             return $this->unauthorizedResponse("Client private_key invalid");
+
+        $user = $request->user();
+
+        if (in_array(UserRole::USER, $user->roles)) {
+            if ($user->id() !== $response->client_id)
+                return $this->unauthorizedResponse("User do not belong to this company");
+        }
 
         $request->merge([
             'private_key' => $private_key,
