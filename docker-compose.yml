@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fintrack-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - fintrack-network
+
+  webserver:
+    image: nginx:latest
+    container_name: fintrack-webserver
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - fintrack-network
+
+  db:
+    image: mysql:8.0
+    container_name: fintrack-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fintrack_db
+      MYSQL_USER: fintrack_user
+      MYSQL_PASSWORD: fintrack_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - fintrack-network
+
+networks:
+  fintrack-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
