@@ -4,6 +4,7 @@ use App\Exceptions\ApiExceptionHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Exceptions\Handler as DefaultExceptionHandler;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -22,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return app(ApiExceptionHandler::class)->renderApiException($exception);
             }
 
-            return parent::render($request, $exception);
+            // Fallback to the default Laravel ExceptionHandler
+            $defaultHandler = app(DefaultExceptionHandler::class);
+            return $defaultHandler->render($request, $exception);
         });
     })->create();
