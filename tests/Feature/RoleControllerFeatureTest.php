@@ -26,8 +26,6 @@ class RoleControllerFeatureTest extends TestCase
                     '*' => [
                         'id',
                         'name',
-                        'created_at',
-                        'updated_at',
                     ]
                 ],
             ]);
