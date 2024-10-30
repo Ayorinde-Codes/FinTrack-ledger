@@ -19,19 +19,25 @@ class AuthControllerFeatureTest extends TestCase
         // Ensure a client exists
         $client = Client::factory()->create();
 
-        $response = $this->postJson('/register', [
+        $userData = [
             'name' => 'John Doe',
             'username' => 'johndoe',
             'email' => 'john@example.com',
-            'password' => 'password',
+            'password' => 'password123',
+            'confirm_password' => 'password123',
             'avatar' => 'http://example.com/avatar.png',
-            'client_id' => $client->id, // Use the existing client
-        ]);
+            'client_id' => $client->id,
+        ];
+
+        $response = $this->postJson('/api/register', $userData);
 
         $response->assertStatus(201)
-            ->assertJson([
-                'message' => 'User account created successfully',
-            ]);
+            ->assertJsonPath('data.name', 'John Doe')
+            ->assertJsonPath('data.username', 'johndoe');
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'john@example.com',
+        ]);
     }
 
 
@@ -47,7 +53,7 @@ class AuthControllerFeatureTest extends TestCase
             'password' => 'password123',
         ];
 
-        $response = $this->postJson('/login', $loginData);
+        $response = $this->postJson('/api/login', $loginData);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.name', $user->name);
@@ -65,7 +71,7 @@ class AuthControllerFeatureTest extends TestCase
             'password' => 'wrongpassword',
         ];
 
-        $response = $this->postJson('/login', $loginData);
+        $response = $this->postJson('/api/login', $loginData);
 
         $response->assertStatus(401)
             ->assertJsonPath('message', 'Invalid Credentials');
@@ -77,7 +83,7 @@ class AuthControllerFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->postJson('/logout');
+        $response = $this->postJson('/api/logout');
 
         $response->assertStatus(200)
             ->assertJsonPath('message', 'You have been successfully logged out.');

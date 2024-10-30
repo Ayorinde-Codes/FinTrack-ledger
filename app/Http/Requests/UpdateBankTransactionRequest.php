@@ -23,7 +23,7 @@ class UpdateBankTransactionRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'client_id' => 'required|exists:companies,id',
+            'client_id' => 'required|exists:clients,id',
             'amount' => 'required',
             'transaction_date' => 'required|date',
             'transaction_type' => 'required',
