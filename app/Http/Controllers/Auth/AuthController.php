@@ -7,6 +7,7 @@ use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Role;
 use App\Enums\UserRole;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,9 @@ class AuthController extends Controller
                 'client_id' => $request->client_id,
             ]);
 
-            $user->roles()->attach(UserRole::USER->value);
+            $userRoleId = Role::where('name', UserRole::USER->value)->value('id');
+
+            $user->roles()->attach($request->role_id ?? $userRoleId);
 
             $success['token'] = $user->createToken('MyApp')->plainTextToken;
             $success['name'] = $user->name;
