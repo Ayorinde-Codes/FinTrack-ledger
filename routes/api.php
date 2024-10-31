@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum', ClientMiddleware::class])->group(function () 
     Route::apiResource('/invoice', InvoiceController::class);
     Route::apiResource('/payment', PaymentController::class);
     Route::apiResource('/expenses', ExpenseController::class);
-    Route::apiResource('/bankTransaction', BankTransactionController::class);
+    Route::apiResource('/bank-transaction', BankTransactionController::class);
     Route::apiResource('/report', ReportController::class);
     Route::apiResource('/payroll', PayrollController::class);
     Route::apiResource('/inventory', InventoryController::class);

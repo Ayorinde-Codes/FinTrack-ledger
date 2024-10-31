@@ -13,11 +13,11 @@ class BankTransactionController extends Controller
 {
     public function index()
     {
-        $invoices = BankTransaction::all();
+        $bankTransaction = BankTransaction::all();
 
         return $this->okResponse(
             'Bank transactions retrieved successfully',
-            BankTransactionResource::collection($invoices)
+            BankTransactionResource::collection($bankTransaction)
         );
     }
     public function store(StoreBankTransactionRequest $request)
@@ -25,7 +25,12 @@ class BankTransactionController extends Controller
         try {
             DB::beginTransaction();
 
-            $transaction = BankTransaction::create($request->validated());
+            $data = array_merge($request->validated(), [
+                'user_id' => $request->user()->id,
+                'client_id' => $request->client_id,
+            ]);
+
+            $transaction = BankTransaction::create($data);
             if (!$transaction)
                 return $this->errorResponse('Unable to create bank transaction');
             DB::commit();

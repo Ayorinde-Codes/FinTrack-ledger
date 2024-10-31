@@ -22,11 +22,9 @@ class UpdateBankTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
-            'client_id' => 'required|exists:clients,id',
-            'amount' => 'required',
-            'transaction_date' => 'required|date',
-            'transaction_type' => 'required',
+            'amount' => 'nullable',
+            'transaction_date' => 'nullable|date',
+            'transaction_type' => 'nullable',
         ];
     }
 }
