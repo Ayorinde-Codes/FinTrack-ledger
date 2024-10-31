@@ -32,7 +32,7 @@ class ClientMiddleware
 
         $user = $request->user();
 
-        if (in_array(UserRole::USER, $user->roles)) {
+        if (in_array(UserRole::USER, $user->roles->pluck('name')->toArray())) {
             if ($user->id() !== $response->client_id)
                 return $this->unauthorizedResponse("User do not belong to this company");
         }

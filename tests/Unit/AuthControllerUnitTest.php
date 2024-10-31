@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 
 class AuthControllerUnitTest extends TestCase
 {
-    /** @test */
     public function test_should_be_user(): void
     {
 
@@ -26,7 +25,6 @@ class AuthControllerUnitTest extends TestCase
     {
         $this->assertEquals(UserRole::ADMIN->value, 'admin');
     }
-
 
     public function test_should_be_manager()
     {
