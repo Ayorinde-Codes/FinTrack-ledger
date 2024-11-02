@@ -16,7 +16,7 @@ class ExpenseController extends Controller
         $expenses = Expense::all();
 
         return $this->okResponse(
-            'Expense retrieved successfully',
+            'Expenses retrieved successfully',
             ExpenseResource::collection($expenses)
         );
     }
@@ -26,7 +26,12 @@ class ExpenseController extends Controller
         try {
             DB::beginTransaction();
 
-            $expense = Expense::create($request->validated());
+            $data = array_merge($request->validated(), [
+                'user_id' => $request->user()->id,
+                'client_id' => $request->client_id,
+            ]);
+
+            $expense = Expense::create($data);
 
             if (!$expense)
                 return $this->errorResponse('Unable to create expense');

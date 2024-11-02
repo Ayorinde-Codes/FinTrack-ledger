@@ -16,4 +16,15 @@ class Expense extends Model
         'amount',
         'receipt',
     ];
+
+    public function clients()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

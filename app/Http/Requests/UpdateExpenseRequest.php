@@ -11,7 +11,7 @@ class UpdateExpenseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,6 @@ class UpdateExpenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
-            'client_id' => 'required|exists:clients,id',
             'expense_category' => 'required',
             'amount' => 'required|numeric',
             'receipt' => 'nullable',
