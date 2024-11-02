@@ -42,4 +42,9 @@ class Client extends Model
     {
         return $this->hasOne(ClientKey::class);
     }
+
+    public function expenses()
+    {
+        return $this->hasOne(Expense::class);
+    }
 }
