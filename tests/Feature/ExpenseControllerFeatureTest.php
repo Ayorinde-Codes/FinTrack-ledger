@@ -82,7 +82,6 @@ class ExpenseControllerFeatureTest extends TestCase
     {
         $expense = Expense::factory()->create();
 
-
         $data = [
             'expense_category' => 'Travels',
             'amount' => 50,

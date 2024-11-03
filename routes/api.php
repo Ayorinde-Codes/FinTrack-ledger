@@ -37,6 +37,6 @@ Route::middleware(['auth:sanctum', ClientMiddleware::class])->group(function () 
     Route::apiResource('/bank-transaction', BankTransactionController::class);
     Route::apiResource('/report', ReportController::class);
     Route::apiResource('/payroll', PayrollController::class);
-    Route::apiResource('/inventory', InventoryController::class);
+    Route::apiResource('/inventories', InventoryController::class);
     Route::apiResource('/tax', TaxController::class);
 });

@@ -15,7 +15,7 @@ class InventoryController extends Controller
     {
         $inventory = Inventory::all();
 
-        return $this->okResponse('Inventory retrieved successfully', InventoryResource::collection($inventory));
+        return $this->okResponse('Inventories retrieved successfully', InventoryResource::collection($inventory));
     }
     public function store(StoreInventoryRequest $request)
     {
