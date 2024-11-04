@@ -25,6 +25,7 @@ class InvoiceController extends Controller
 
     public function store(StoreInvoiceRequest $request)
     {
+
         try {
             DB::beginTransaction();
             $invoice = Invoice::create([
@@ -34,6 +35,8 @@ class InvoiceController extends Controller
                 'status' => $request->status,
                 'recurrence' => $request->recurrence,
                 'next_invoice_date' => Carbon::parse($request->next_invoice_date),
+                'user_id' => $request->user()->id,
+                'client_id' => $request->client_id,
             ]);
 
             if ($invoice->recurrence) {
