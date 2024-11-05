@@ -18,7 +18,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::all();
 
         return $this->okResponse(
-            'Invoice retrieved successfully',
+            'Invoices retrieved successfully',
             InvoiceResource::collection($invoices)
         );
     }
@@ -44,7 +44,7 @@ class InvoiceController extends Controller
                 $invoice->save();
             }
             DB::commit();
-            return $this->createdResponse('Invoice stored successfully');
+            return $this->createdResponse('Invoice created successfully');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->serverErrorResponse($e->getMessage());
@@ -73,7 +73,6 @@ class InvoiceController extends Controller
             DB::beginTransaction();
 
             $invoice->fill($request->only([
-                'invoice_number',
                 'invoice_date',
                 'due_date',
                 'recurrence',
@@ -98,7 +97,7 @@ class InvoiceController extends Controller
     {
         try {
             $invoice->delete();
-            return $this->okResponse('Invoice Deleted successfully');
+            return $this->okResponse('Invoice deleted successfully');
         } catch (Exception $e) {
             return $this->serverErrorResponse($e->getMessage());
         }

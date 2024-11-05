@@ -22,9 +22,9 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required',
-            'due_date' => 'required|date',
-            'status' => 'required',
+            'amount' => 'nullable',
+            'due_date' => 'nullable|date',
+            'status' => 'nullable',
             'recurrence' => 'nullable',
             'next_invoice_date' => 'nullable|date'
         ];
