@@ -37,19 +37,22 @@ class Invoice extends Model
         return $this->hasMany(Payment::class);
     }
 
-
     public static function generateInvoiceNumber()
     {
         $prefix = 'INV';
         $year = date('Y');
 
-        $lastInvoice = self::whereYear('created_at', $year)->latest()->first();
+        do {
+            $lastInvoice = self::whereYear('created_at', $year)->latest()->first();
 
-        $nextNumber = $lastInvoice ? (int) substr($lastInvoice->invoice_number, -5) + 1 : 1;
+            $nextNumber = $lastInvoice ? (int) substr($lastInvoice->invoice_number, -5) + 1 : 1;
 
-        $formattedNumber = str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+            $formattedNumber = str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
-        return $prefix . $year . $formattedNumber;
+            $invoiceNumber = $prefix . $year . $formattedNumber;
+
+        } while (self::where('invoice_number', $invoiceNumber)->exists()); // Ensure uniqueness
+
+        return $invoiceNumber;
     }
-
 }
