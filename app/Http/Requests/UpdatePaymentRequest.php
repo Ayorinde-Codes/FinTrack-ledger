@@ -22,8 +22,8 @@ class UpdatePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_date' => 'required|date',
-            'payment_method' => 'required', // 'cash', 'bank', 'credit_card'
+            'payment_date' => 'nullable|date',
+            'payment_method' => 'nullable', // 'cash', 'bank', 'credit_card'
         ];
     }
 }

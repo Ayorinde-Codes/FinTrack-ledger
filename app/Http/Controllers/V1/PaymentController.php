@@ -16,7 +16,7 @@ class PaymentController extends Controller
         $invoices = Payment::all();
 
         return $this->okResponse(
-            'Payment retrieved successfully',
+            'Payments retrieved successfully',
             PaymentResource::collection($invoices)
         );
     }
