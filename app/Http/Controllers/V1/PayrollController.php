@@ -22,7 +22,14 @@ class PayrollController extends Controller
     {
         try {
             DB::beginTransaction();
-            $payroll = Payroll::create($request->validated());
+
+            $data = array_merge($request->validated(), [
+                'user_id' => $request->user()->id,
+                'client_id' => $request->client_id,
+            ]);
+
+            $payroll = Payroll::create($data);
+
             if (!$payroll)
                 return $this->badRequestResponse('Payroll failed to create');
             DB::commit();

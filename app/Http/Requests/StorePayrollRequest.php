@@ -22,8 +22,6 @@ class StorePayrollRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|exists:clients,id',
-            'user_id' => 'required|exists:users,id',
             'salary' => 'required|numeric',
             'payment_date' => 'required|date',
             'taxes' => 'nullable|array',
