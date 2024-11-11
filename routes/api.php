@@ -35,7 +35,11 @@ Route::middleware(['auth:sanctum', ClientMiddleware::class])->group(function () 
     Route::apiResource('/payment', PaymentController::class);
     Route::apiResource('/expenses', ExpenseController::class);
     Route::apiResource('/bank-transaction', BankTransactionController::class);
-    Route::apiResource('/report', ReportController::class);
+    Route::apiResource('/report', ReportController::class)->only([
+        'index',
+        'destroy'
+    ]);
+    Route::post('/report/generate', [ReportController::class, 'generate']);
     Route::apiResource('/payroll', PayrollController::class);
     Route::apiResource('/inventories', InventoryController::class);
     Route::apiResource('/tax', TaxController::class);
