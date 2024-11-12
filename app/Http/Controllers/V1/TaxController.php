@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTaxRequest;
 use App\Http\Requests\UpdateTaxRequest;
 use App\Http\Resources\TaxResource;
 use App\Models\Tax;
@@ -15,14 +16,21 @@ class TaxController extends Controller
     {
         $tax = Tax::all();
 
-        return $this->okResponse('Payroll retrieved successfully', TaxResource::collection($tax));
+        return $this->okResponse('Tax retrieved successfully', TaxResource::collection($tax));
     }
 
-    public function store(Request $request)
+    public function store(StoreTaxRequest $request)
     {
         try {
             DB::beginTransaction();
-            $tax = Tax::create($request->validated());
+
+            $data = array_merge($request->validated(), [
+                'user_id' => $request->user()->id,
+                'client_id' => $request->client_id,
+            ]);
+
+            $tax = Tax::create($data);
+
             if (!$tax)
                 return $this->errorResponse('Error creating tax');
             DB::commit();

@@ -2,15 +2,14 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Client;
 use App\Models\User;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Expense>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tax>
  */
-class ExpenseFactory extends Factory
+class TaxFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,8 +22,8 @@ class ExpenseFactory extends Factory
             'client_id' => Client::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,
             'amount' => $this->faker->randomFloat(2, 10, 10000),
-            'expense_category' => $this->faker->randomElement(['Office Supplies', 'Travel', 'Utilities']),
-            'receipt' => Str::random(10),
+            'tax_type' => $this->faker->randomElement(['Income Tax', 'Sales Tax']),
+            'tax_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

@@ -22,8 +22,6 @@ class StoreTaxRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|integer',
-            'user_id' => 'required|integer',
             'amount' => 'required|numeric',
             'tax_type' => 'required|string',
             'tax_date' => 'required|date',
