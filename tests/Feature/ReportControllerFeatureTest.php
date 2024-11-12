@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Client;
 use App\Models\ClientKey;
 use App\Models\Report;
+use App\Models\Payroll;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -50,6 +51,7 @@ class ReportControllerFeatureTest extends TestCase
 
     public function test_it_should_generate_report()
     {
+        Payroll::factory()->count(5)->create();
 
         Report::factory()->count(5)->create();
 
@@ -58,5 +60,17 @@ class ReportControllerFeatureTest extends TestCase
         ];
 
         $response = $this->postJson('/api/report/generate', $report);
+
+        $response->assertOk()
+            ->assertJsonPath('message', 'Report generated successfully')
+            ->assertJsonPath('data.report_type', 'payroll');
+    }
+
+    public function test_it_should_destroy_report()
+    {
+        $report = Report::factory()->create();
+        $response = $this->deleteJson('/api/report/' . $report->id);
+        $response->assertOk()
+            ->assertJsonPath('message', 'Report deleted successfully');
     }
 }
