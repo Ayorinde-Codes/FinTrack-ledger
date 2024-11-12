@@ -21,8 +21,8 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id' => Client::factory(),
-            'user_id' => User::factory(),
+            'client_id' => Client::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'invoice_number' => 'INV' . date('Y') . str_pad(Str::random(5), 5, '0', STR_PAD_LEFT),
             'amount' => $this->faker->randomFloat(2, 10, 10000),
             'due_date' => $this->faker->dateTimeBetween('-1 years', 'now'),

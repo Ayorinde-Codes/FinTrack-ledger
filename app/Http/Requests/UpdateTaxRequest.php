@@ -24,7 +24,7 @@ class UpdateTaxRequest extends FormRequest
         return [
             'amount' => 'required|numeric',
             'tax_type' => 'required|string',
-            'tax_date' => 'required|date',
+            'tax_date' => 'nullable|date',
         ];
     }
 }
