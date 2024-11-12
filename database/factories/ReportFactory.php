@@ -18,7 +18,7 @@ class ReportFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id' => Client::factory(),
+            'client_id' => Client::inRandomOrder()->first()->id,
             'report_type' => $this->faker->randomElement(['financial', 'sales', 'inventory', 'payroll']),
             'data' => json_encode([
                 'total_revenue' => $this->faker->randomFloat(2, 1000, 100000),

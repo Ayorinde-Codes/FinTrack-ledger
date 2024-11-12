@@ -15,7 +15,6 @@ class GenerateReportAction
         return $reportData;
     }
 
-
     private function generateReportData($reportType)
     {
         switch ($reportType) {
@@ -86,17 +85,21 @@ class GenerateReportAction
     {
         $clientId = auth()->user()->client_id;
 
-        $payroll = Payroll::where('client_id', $clientId)->get();
+        $payrollRecords = Payroll::where('client_id', $clientId)->get();
 
-        // Fetch payroll data
-        $totalSalary = $payroll->sum('salary');
+        // Fetch total salary data
+        $totalSalary = $payrollRecords->sum('salary');
 
-        $taxes = json_decode($payroll->taxes, true);
-        $totalTaxes = array_sum($taxes);
+        // Sum taxes from each payroll record
+        $totalTaxes = $payrollRecords->reduce(function ($carry, $payroll) {
+            $taxes = $payroll->taxes;
+            return $carry + array_sum($taxes);
+        }, 0);
 
         return [
             'total_salary' => $totalSalary,
             'total_taxes' => $totalTaxes,
         ];
     }
+
 }
