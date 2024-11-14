@@ -1,7 +1,3 @@
-For your FinTrack-Ledger app's README file, here’s a possible structure to consider:
-
----
-
 # FinTrack-Ledger
 
 FinTrack-Ledger is a comprehensive financial accounting software designed to help businesses manage their finances effectively. This application provides core accounting features like invoicing, payroll, expenses, and tax management. It is built with a focus on scalability, multi-tenancy, and security.
@@ -72,6 +68,4 @@ Contributions are welcome! Please follow the standard pull request workflow:
 
 
 Todo:
-- write Test for all Feature and unit
-- Add docker.
 - Add CI/CD pipeline. (Git Actions workflow)
