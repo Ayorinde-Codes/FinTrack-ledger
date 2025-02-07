@@ -30,12 +30,15 @@ class PayrollController extends Controller
 
             $payroll = Payroll::create($data);
 
-            if (!$payroll)
+            if (! $payroll) {
                 return $this->badRequestResponse('Payroll failed to create');
+            }
             DB::commit();
+
             return $this->createdResponse('Payroll created successfully');
         } catch (\Exception $e) {
             DB::rollback();
+
             return $this->serverErrorResponse(
                 'Error creating payroll',
                 $e->getMessage()
@@ -56,19 +59,22 @@ class PayrollController extends Controller
             $payroll->fill($request->only([
                 'salary',
                 'payment_date',
-                'taxes'
+                'taxes',
             ]));
 
             if ($payroll->isDirty()) {
                 $payroll->save();
                 DB::commit();
+
                 return $this->okResponse('Payroll updated successfully');
             }
 
             DB::rollBack();
+
             return $this->errorResponse('Payroll not updated');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error updating payroll', $e->getMessage());
         }
     }
@@ -78,7 +84,7 @@ class PayrollController extends Controller
         try {
             $deleted = $payroll->delete();
 
-            if (!$deleted) {
+            if (! $deleted) {
                 return $this->badRequestResponse('Payroll failed to delete');
             }
 

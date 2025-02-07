@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->foreignId(column: 'client_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->decimal('amount', 15, 2);
-            $table->string('tax_type'); //Income Tax, Sales Tax
+            $table->string('tax_type'); // Income Tax, Sales Tax
             $table->date('tax_date');
             $table->timestamps();
         });

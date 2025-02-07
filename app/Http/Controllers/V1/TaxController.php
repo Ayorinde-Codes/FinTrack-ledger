@@ -7,7 +7,6 @@ use App\Http\Requests\StoreTaxRequest;
 use App\Http\Requests\UpdateTaxRequest;
 use App\Http\Resources\TaxResource;
 use App\Models\Tax;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TaxController extends Controller
@@ -31,12 +30,15 @@ class TaxController extends Controller
 
             $tax = Tax::create($data);
 
-            if (!$tax)
+            if (! $tax) {
                 return $this->errorResponse('Error creating tax');
+            }
             DB::commit();
+
             return $this->createdResponse('Tax created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error creating tax', $e->getMessage());
         }
     }
@@ -45,8 +47,9 @@ class TaxController extends Controller
     {
         try {
             $tax = Tax::find($id);
-            if (!$tax)
+            if (! $tax) {
                 return $this->notFoundResponse('Tax not found');
+            }
 
             return $this->okResponse(
                 'Tax retrieved successfully',
@@ -71,13 +74,16 @@ class TaxController extends Controller
             if ($tax->isDirty()) {
                 $tax->save();
                 DB::commit();
+
                 return $this->okResponse('Tax updated successfully');
             }
 
             DB::rollBack();
+
             return $this->okResponse('No changes detected');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error updating tax', $e->getMessage());
         }
     }
@@ -86,6 +92,7 @@ class TaxController extends Controller
     {
         try {
             $tax->delete();
+
             return $this->okResponse('Tax deleted successfully');
         } catch (\Exception $e) {
             return $this->serverErrorResponse('Error deleting tax', $e->getMessage());

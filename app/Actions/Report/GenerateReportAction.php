@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Actions\Report;
+
 use App\Models\Expense;
 use App\Models\Inventory;
 use App\Models\Invoice;
@@ -93,6 +94,7 @@ class GenerateReportAction
         // Sum taxes from each payroll record
         $totalTaxes = $payrollRecords->reduce(function ($carry, $payroll) {
             $taxes = $payroll->taxes;
+
             return $carry + array_sum($taxes);
         }, 0);
 
@@ -101,5 +103,4 @@ class GenerateReportAction
             'total_taxes' => $totalTaxes,
         ];
     }
-
 }

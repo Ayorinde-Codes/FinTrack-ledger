@@ -27,7 +27,7 @@ class StoreInvoiceRequest extends FormRequest
             'due_date' => 'required|date',
             'status' => 'required',
             'recurrence' => 'nullable|string',
-            'next_invoice_date' => 'nullable|date'
+            'next_invoice_date' => 'nullable|date',
         ];
     }
 }

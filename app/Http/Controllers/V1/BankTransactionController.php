@@ -20,6 +20,7 @@ class BankTransactionController extends Controller
             BankTransactionResource::collection($bankTransaction)
         );
     }
+
     public function store(StoreBankTransactionRequest $request)
     {
         try {
@@ -31,12 +32,15 @@ class BankTransactionController extends Controller
             ]);
 
             $transaction = BankTransaction::create($data);
-            if (!$transaction)
+            if (! $transaction) {
                 return $this->errorResponse('Unable to create bank transaction');
+            }
             DB::commit();
+
             return $this->createdResponse('Bank transaction created successfully', new BankTransactionResource($transaction));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error creating transaction', $e->getMessage());
         }
     }
@@ -45,8 +49,9 @@ class BankTransactionController extends Controller
     {
         try {
             $bankTransaction = BankTransaction::find($id);
-            if (!$bankTransaction)
+            if (! $bankTransaction) {
                 return $this->notFoundResponse('Bank transaction not found');
+            }
 
             return $this->okResponse(
                 'BankTransaction retrieved successfully',
@@ -64,26 +69,31 @@ class BankTransactionController extends Controller
 
             $bankTransaction->fill($request->only([
                 'transaction_type',
-                'transaction_date'
+                'transaction_date',
             ]));
 
             if ($bankTransaction->isDirty()) {
                 $bankTransaction->save();
                 DB::commit();
+
                 return $this->okResponse('Bank transaction updated successfully');
             }
 
             DB::rollBack();
+
             return $this->errorResponse('Bank transaction not updated');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error updating bank transaction', $e->getMessage());
         }
     }
+
     public function destroy(BankTransaction $bankTransaction)
     {
         try {
             $bankTransaction->delete();
+
             return $this->okResponse('Bank transaction deleted successfully');
         } catch (\Exception $e) {
             return $this->serverErrorResponse('Error deleting transaction', $e->getMessage());

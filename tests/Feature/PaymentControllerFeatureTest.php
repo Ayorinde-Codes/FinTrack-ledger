@@ -4,16 +4,16 @@ namespace Tests\Feature;
 
 use App\Models\Client;
 use App\Models\ClientKey;
-use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PaymentControllerFeatureTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $headers;
 
     protected function setUp(): void
@@ -31,7 +31,7 @@ class PaymentControllerFeatureTest extends TestCase
         $this->actingAs($user);
 
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
             'Accept' => 'application/json',
             'private_key' => $clientKey->private_key,
         ]);

@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class BankTransaction extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'client_id',
         'user_id',
         'amount',
         'transaction_type',
-        'transaction_date'
+        'transaction_date',
     ];
+
     public function client()
     {
         return $this->belongsTo(Client::class);

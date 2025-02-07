@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use App\Models\Role;
-use App\Enums\UserRole;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-
     public function register(AuthRequest $request)
     {
         try {
@@ -35,7 +34,7 @@ class AuthController extends Controller
             $success['username'] = $user->username;
             $success['avatar'] = $user->avatar;
 
-            return $this->createdResponse("User account created successfully", $success);
+            return $this->createdResponse('User account created successfully', $success);
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
@@ -52,10 +51,10 @@ class AuthController extends Controller
 
                 return $this->okResponse('User login successfully.', $data);
             } else {
-                return $this->errorResponse("Invalid Credentials");
+                return $this->errorResponse('Invalid Credentials');
             }
         } catch (\Exception $e) {
-            return $this->serverErrorResponse("Unable to create account", $e->getMessage());
+            return $this->serverErrorResponse('Unable to create account', $e->getMessage());
         }
     }
 

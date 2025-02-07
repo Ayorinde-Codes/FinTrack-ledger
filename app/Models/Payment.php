@@ -13,7 +13,7 @@ class Payment extends Model
         'invoice_id',
         'amount',
         'payment_date',
-        'payment_method'
+        'payment_method',
     ];
 
     public function invoice()

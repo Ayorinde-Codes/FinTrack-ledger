@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Helpers\UtilHelper;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Helpers\UtilHelper;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ClientKey>

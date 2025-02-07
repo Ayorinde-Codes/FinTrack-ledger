@@ -2,18 +2,18 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\Auth\ValidateClientKeyAction;
 use App\Enums\UserRole;
+use App\Traits\ApiResponseTrait;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Traits\ApiResponseTrait;
-use App\Actions\Auth\ValidateClientKeyAction;
 
 class ClientMiddleware
 {
     use ApiResponseTrait;
 
-    protected $private_key = "private_key";
+    protected $private_key = 'private_key';
 
     /**
      * Handle an incoming request.
@@ -24,17 +24,20 @@ class ClientMiddleware
     {
         $private_key = $request->header($this->private_key);
 
-        if (!$private_key)
-            return $this->unauthorizedResponse("Client private_key is missing.");
+        if (! $private_key) {
+            return $this->unauthorizedResponse('Client private_key is missing.');
+        }
 
-        if (!$response = $this->validateClientKey($private_key))
-            return $this->unauthorizedResponse("Client private_key invalid");
+        if (! $response = $this->validateClientKey($private_key)) {
+            return $this->unauthorizedResponse('Client private_key invalid');
+        }
 
         $user = $request->user();
 
         if (in_array(UserRole::USER, $user->roles->pluck('name')->toArray())) {
-            if ($user->id() !== $response->client_id)
-                return $this->unauthorizedResponse("User do not belong to this company");
+            if ($user->id() !== $response->client_id) {
+                return $this->unauthorizedResponse('User do not belong to this company');
+            }
         }
 
         $request->merge([
@@ -47,6 +50,6 @@ class ClientMiddleware
 
     private function validateClientKey($private_key)
     {
-        return (new ValidateClientKeyAction())->execute($private_key);
+        return (new ValidateClientKeyAction)->execute($private_key);
     }
 }

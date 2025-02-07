@@ -26,7 +26,7 @@ class UpdateInvoiceRequest extends FormRequest
             'due_date' => 'nullable|date',
             'status' => 'nullable',
             'recurrence' => 'nullable',
-            'next_invoice_date' => 'nullable|date'
+            'next_invoice_date' => 'nullable|date',
         ];
     }
 }

@@ -8,9 +8,8 @@ trait ApiResponseTrait
 {
     /**
      * Send a 200 Success response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function okResponse(string $message, $data = null): JsonResponse
     {
@@ -21,9 +20,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 201 Created response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function createdResponse(string $message, $data = null): JsonResponse
     {
@@ -34,9 +32,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 400 Bad Request response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function errorResponse(string $message, $data = null): JsonResponse
     {
@@ -47,9 +44,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 404 Not Found response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function notFoundResponse(string $message, $data = null): JsonResponse
     {
@@ -60,9 +56,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 400 Bad Request response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function badRequestResponse(string $message, $data = null): JsonResponse
     {
@@ -73,9 +68,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 401 Unauthorized response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function unauthorizedResponse(string $message, $data = null): JsonResponse
     {
@@ -86,9 +80,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 403 Forbidden response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function forbiddenResponse(string $message, $data = null): JsonResponse
     {
@@ -99,9 +92,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 405 Method Not Found response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function methodNotAllowedResponse(string $message, $data = null): JsonResponse
     {
@@ -112,9 +104,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 422 Validation error response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function validationErrorResponse(string $message, $data = null): JsonResponse
     {
@@ -125,9 +116,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 500 Server Error response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function serverErrorResponse(string $message, $data = null): JsonResponse
     {
@@ -138,9 +128,8 @@ trait ApiResponseTrait
 
     /**
      * Send a 503 Service Unavailable response
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function ServiceUnavailableResponse(string $message, $data = null): JsonResponse
     {
@@ -151,10 +140,8 @@ trait ApiResponseTrait
 
     /**
      * Send a response using the status code
-     * @param int $statusCode
-     * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  null  $data
      */
     public function sendResponse(int $statusCode, string $message, $data = null): JsonResponse
     {
@@ -166,10 +153,8 @@ trait ApiResponseTrait
 
     /**
      * Prepare response payload
-     * @param bool $status
-     * @param string $message
-     * @param null $data
-     * @return array
+     *
+     * @param  null  $data
      */
     public function prepareApiResponse(bool $status, string $message, $data = null): array
     {

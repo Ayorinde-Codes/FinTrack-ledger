@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\UserRole;
 use App\Models\Role;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RoleFactory extends Factory
 {

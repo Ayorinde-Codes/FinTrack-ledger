@@ -23,7 +23,7 @@ class TaxResource extends JsonResource
             'tax_date' => $this->tax_date,
             'client' => new ClientResource($this->whenLoaded('client')),
             'user' => new UserResource($this->whenLoaded('user')),
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
         ];
     }
 }

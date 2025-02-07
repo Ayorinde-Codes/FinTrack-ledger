@@ -15,6 +15,7 @@ class ReportController extends Controller
     {
         try {
             $reports = Report::all();
+
             return $this->okResponse('Report retrieved successfully', ReportResource::collection($reports));
         } catch (\Exception $e) {
             return $this->serverErrorResponse('Error retrieving report', $e->getMessage());
@@ -26,7 +27,7 @@ class ReportController extends Controller
         try {
             DB::beginTransaction();
 
-            $reportData = (new GenerateReportAction())->execute($request);
+            $reportData = (new GenerateReportAction)->execute($request);
 
             $report = [
                 'client_id' => auth()->user()->client_id,
@@ -37,13 +38,16 @@ class ReportController extends Controller
 
             $createReport = Report::create($report);
 
-            if (!$createReport)
+            if (! $createReport) {
                 return $this->errorResponse('Error generating report');
+            }
 
             DB::commit();
+
             return $this->okResponse('Report generated successfully', new ReportResource($createReport));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error generating report', $e->getMessage());
         }
     }
@@ -52,6 +56,7 @@ class ReportController extends Controller
     {
         try {
             $report->delete();
+
             return $this->okResponse('Report deleted successfully');
         } catch (\Exception $e) {
             return $this->errorResponse('Error deleting report', $e->getMessage());

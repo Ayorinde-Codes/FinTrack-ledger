@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Traits\ApiResponseTrait;
 
 abstract class Controller
@@ -9,6 +10,6 @@ abstract class Controller
 
     public function init()
     {
-        return $this->okResponse("success", ["FinTrack-Ledger Api Version 1"]);
+        return $this->okResponse('success', ['FinTrack-Ledger Api Version 1']);
     }
 }
