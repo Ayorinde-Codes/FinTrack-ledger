@@ -67,5 +67,6 @@ Contributions are welcome! Please follow the standard pull request workflow:
 
 
 
-Todo:
-- Add CI/CD pipeline. (Git Actions workflow)
+Included:
+- Added CI/CD pipeline. (Git Actions workflow)
+- Pint for php linting
