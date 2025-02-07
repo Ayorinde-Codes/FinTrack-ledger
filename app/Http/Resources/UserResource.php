@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'address' => $this->address,
             'created_at' => $this->created_at,
-            'roles' => RoleResource::collection($this->whenLoaded('roles'))
+            'roles' => RoleResource::collection($this->whenLoaded('roles')),
         ];
     }
 }

@@ -23,7 +23,7 @@ class PayrollResource extends JsonResource
             'taxes' => $this->taxes,
             'client' => new ClientResource($this->whenLoaded('client')),
             'user' => new UserResource($this->whenLoaded('user')),
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
         ];
     }
 }

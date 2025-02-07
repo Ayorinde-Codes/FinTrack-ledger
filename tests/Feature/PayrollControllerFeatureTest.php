@@ -7,12 +7,12 @@ use App\Models\ClientKey;
 use App\Models\Payroll;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PayrollControllerFeatureTest extends TestCase
 {
     use RefreshDatabase;
+
     protected $heders;
 
     protected function setUp(): void
@@ -30,7 +30,7 @@ class PayrollControllerFeatureTest extends TestCase
         $this->actingAs($user);
 
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
             'Accept' => 'application/json',
             'private_key' => $clientKey->private_key,
         ]);

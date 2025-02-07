@@ -13,7 +13,7 @@ class Report extends Model
         'client_id',
         'report_type',
         'data',
-        'generated_at'
+        'generated_at',
     ];
 
     public function client()

@@ -7,7 +7,6 @@ use App\Models\ClientKey;
 use App\Models\Inventory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class InventoryControllerFeatureTest extends TestCase
@@ -31,7 +30,7 @@ class InventoryControllerFeatureTest extends TestCase
         $this->actingAs($user);
 
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
             'Accept' => 'application/json',
             'private_key' => $clientKey->private_key,
         ]);

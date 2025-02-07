@@ -14,7 +14,7 @@ class Tax extends Model
         'user_id',
         'amount',
         'tax_type',
-        'tax_date'
+        'tax_date',
     ];
 
     public function client()

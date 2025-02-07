@@ -6,12 +6,12 @@ class UtilHelper
 {
     public static function generateApiKey()
     {
-        $publicKey = 'pub_' . static::generateApiToken();
-        $privateKey = 'priv_' . static::generateApiToken();
+        $publicKey = 'pub_'.static::generateApiToken();
+        $privateKey = 'priv_'.static::generateApiToken();
 
         return [
-            "public_key" => $publicKey,
-            "private_key" => $privateKey,
+            'public_key' => $publicKey,
+            'private_key' => $privateKey,
         ];
     }
 

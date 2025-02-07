@@ -3,13 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\BankTransaction;
-use App\Models\User;
 use App\Models\Client;
 use App\Models\ClientKey;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use function PHPUnit\Framework\assertJson;
 
 class BankTransactionControllerFeatureTest extends TestCase
 {
@@ -32,7 +30,7 @@ class BankTransactionControllerFeatureTest extends TestCase
         $this->actingAs(user: $user);
 
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
             'Accept' => 'application/json',
             'private_key' => $clientKey->private_key,
         ]);
@@ -48,7 +46,6 @@ class BankTransactionControllerFeatureTest extends TestCase
             ->assertJsonStructure(['data'])
             ->assertJsonPath('message', 'Bank transactions retrieved successfully');
     }
-
 
     public function test_it_can_create_bank_transaction()
     {

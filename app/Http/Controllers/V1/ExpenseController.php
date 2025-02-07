@@ -33,12 +33,15 @@ class ExpenseController extends Controller
 
             $expense = Expense::create($data);
 
-            if (!$expense)
+            if (! $expense) {
                 return $this->errorResponse('Unable to create expense');
+            }
             DB::commit();
+
             return $this->createdResponse('Expense created successfully', new ExpenseResource($expense));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error creating expense', $e->getMessage());
         }
     }
@@ -47,8 +50,9 @@ class ExpenseController extends Controller
     {
         try {
             $expense = Expense::find($id);
-            if (!$expense)
+            if (! $expense) {
                 return $this->notFoundResponse('Expense not found');
+            }
 
             return $this->okResponse(
                 'Expense retrieved successfully',
@@ -67,19 +71,22 @@ class ExpenseController extends Controller
             $expense->fill($request->only([
                 'expense_category',
                 'amount',
-                'receipt'
+                'receipt',
             ]));
 
             if ($expense->isDirty()) {
                 $expense->save();
                 DB::commit();
+
                 return $this->okResponse('Expense updated successfully');
             }
 
             DB::rollBack();
+
             return $this->errorResponse('Expense not updated');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error updating bank expense', $e->getMessage());
         }
     }
@@ -88,6 +95,7 @@ class ExpenseController extends Controller
     {
         try {
             $expense->delete();
+
             return $this->okResponse('Expense deleted successfully');
         } catch (\Exception $e) {
             return $this->serverErrorResponse('Error deleting expense', $e->getMessage());

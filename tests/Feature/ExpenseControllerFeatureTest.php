@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Expense;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Client;
 use App\Models\ClientKey;
+use App\Models\Expense;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ExpenseControllerFeatureTest extends TestCase
 {
@@ -31,7 +30,7 @@ class ExpenseControllerFeatureTest extends TestCase
         $this->actingAs(user: $user);
 
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
             'Accept' => 'application/json',
             'private_key' => $clientKey->private_key,
         ]);
@@ -104,6 +103,4 @@ class ExpenseControllerFeatureTest extends TestCase
         $response->assertOk()
             ->assertJsonPath('message', 'Expense deleted successfully');
     }
-
-
 }

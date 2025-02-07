@@ -1,0 +1,36 @@
+name: Fix Code Style
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring
+          coverage: none
+
+      - name: Install Laravel Pint
+        run: composer global require laravel/pint
+
+      - name: Run Pint
+        run: pint --test # Add --test to avoid committing without review during lint checks
+
+      - name: Commit linted files
+        if: success() && steps.pint.outputs.modified == 'true' # Only commit if files were changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fixes coding style with Pint"

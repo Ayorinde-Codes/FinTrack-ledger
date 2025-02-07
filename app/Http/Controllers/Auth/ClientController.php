@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\UtilHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\ClientKey;
-use App\Helpers\UtilHelper;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller

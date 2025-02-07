@@ -7,8 +7,8 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
-use Exception;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
@@ -44,9 +44,11 @@ class InvoiceController extends Controller
                 $invoice->save();
             }
             DB::commit();
+
             return $this->createdResponse('Invoice created successfully');
         } catch (Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse($e->getMessage());
         }
     }
@@ -55,8 +57,9 @@ class InvoiceController extends Controller
     {
         try {
             $invoice = Invoice::find($id);
-            if (!$invoice)
+            if (! $invoice) {
                 return $this->notFoundResponse('Invoice not found');
+            }
 
             return $this->okResponse(
                 'Invoice retrieved successfully',
@@ -82,13 +85,16 @@ class InvoiceController extends Controller
             if ($invoice->isDirty()) {
                 $invoice->save();
                 DB::commit();
+
                 return $this->okResponse('Invoice updated successfully');
             }
 
             DB::rollBack();
+
             return $this->errorResponse('Invoice not updated');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error updating invoice', $e->getMessage());
         }
     }
@@ -97,6 +103,7 @@ class InvoiceController extends Controller
     {
         try {
             $invoice->delete();
+
             return $this->okResponse('Invoice deleted successfully');
         } catch (Exception $e) {
             return $this->serverErrorResponse($e->getMessage());

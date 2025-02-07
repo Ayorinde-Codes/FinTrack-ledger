@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Http\Resources\PaymentResource;
-use Illuminate\Support\Facades\DB;
 use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -27,13 +27,16 @@ class PaymentController extends Controller
             DB::beginTransaction();
             $payment = Payment::create($request->validated());
 
-            if (!$payment)
+            if (! $payment) {
                 return $this->errorResponse('Error creating payment');
+            }
 
             DB::commit();
+
             return $this->createdResponse('Payment created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse(
                 'Error creating payment',
                 $e->getMessage()
@@ -45,8 +48,9 @@ class PaymentController extends Controller
     {
         try {
             $payment = Payment::find($id);
-            if (!$payment)
+            if (! $payment) {
                 return $this->notFoundResponse('Payment not found');
+            }
 
             return $this->okResponse(
                 'Payment retrieved successfully',
@@ -64,19 +68,22 @@ class PaymentController extends Controller
 
             $payment->fill($request->only([
                 'payment_date',
-                'payment_method'
+                'payment_method',
             ]));
 
             if ($payment->isDirty()) {
                 $payment->save();
                 DB::commit();
+
                 return $this->okResponse('Payment updated successfully');
             }
 
             DB::rollBack();
+
             return $this->errorResponse('Payment not updated');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->serverErrorResponse('Error updating payment', $e->getMessage());
         }
     }
@@ -85,6 +92,7 @@ class PaymentController extends Controller
     {
         try {
             $payment->delete();
+
             return $this->okResponse('Payment deleted successfully');
         } catch (\Exception $e) {
             return $this->serverErrorResponse(

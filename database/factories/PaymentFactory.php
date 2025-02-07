@@ -21,7 +21,7 @@ class PaymentFactory extends Factory
             'invoice_id' => Invoice::inRandomOrder()->first()->id,
             'amount' => $this->faker->randomFloat(2, 10, 10000),
             'payment_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
-            'payment_method' => $this->faker->randomElement(['Credit Card', 'Bank Transfer', 'Cash', 'PayPal'])
+            'payment_method' => $this->faker->randomElement(['Credit Card', 'Bank Transfer', 'Cash', 'PayPal']),
         ];
     }
 }

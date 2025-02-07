@@ -6,7 +6,6 @@ use App\Models\BankTransaction;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class BankTransactionFactory extends Factory
 {

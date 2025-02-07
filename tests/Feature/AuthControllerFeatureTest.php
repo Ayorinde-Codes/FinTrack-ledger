@@ -2,17 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 class AuthControllerFeatureTest extends TestCase
 {
     use RefreshDatabase;
-
 
     public function test_it_can_register_a_user()
     {
@@ -39,7 +37,6 @@ class AuthControllerFeatureTest extends TestCase
             'email' => 'john@example.com',
         ]);
     }
-
 
     public function it_can_login_with_correct_credentials()
     {

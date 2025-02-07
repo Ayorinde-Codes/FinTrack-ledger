@@ -1,0 +1,32 @@
+name: Fintrack Ledger Backend CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  linting:
+    name :  run static code analysis
+    uses : ./.github/workflows/lint.yml
+
+  testing:
+    name : run test
+    needs : linting
+    uses : ./.github/workflows/test.yml
+
+  # Uncomment these jobs when ready to add staging and production deployments
+
+  # deploy-staging:
+  #   if: github.ref == 'refs/heads/staging'
+  #   needs: testing
+  #   uses: ./.github/workflows/deploy-staging.yml
+
+  # deploy-production:
+  #   if: github.ref == 'refs/heads/main'
+  #   needs: testing
+  #   uses: ./.github/workflows/deploy-production.yml

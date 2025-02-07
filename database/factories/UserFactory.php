@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Enums\Status;
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\Client;
-use App\Enums\Status;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'avatar' => $this->faker->imageUrl(),
-            'status' => Status::ACTIVE, //$this->faker->randomElement([Status::ACTIVE, Status::INACTIVE]),
+            'status' => Status::ACTIVE, // $this->faker->randomElement([Status::ACTIVE, Status::INACTIVE]),
             'remember_token' => Str::random(10),
         ];
     }
@@ -42,7 +42,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Status;
 use App\Models\Client;
 use App\Models\ClientKey;
 use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Enums\Status;
 
 class InvoiceControllerFeatureTest extends TestCase
 {
@@ -32,7 +31,7 @@ class InvoiceControllerFeatureTest extends TestCase
         $this->actingAs($user);
 
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
             'Accept' => 'application/json',
             'private_key' => $clientKey->private_key,
         ]);

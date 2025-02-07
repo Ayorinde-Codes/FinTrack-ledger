@@ -1,7 +1,10 @@
-FROM php:8.2-fpm
-#  FastCGI Process Manager
+FROM php:8.3-fpm
+# FastCGI Process Manager
+
 ARG user
 ARG uid
+
+# Install system dependencies
 RUN apt update && apt install -y \
     coreutils \
     libzip-dev \
@@ -11,36 +14,33 @@ RUN apt update && apt install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev
+
 RUN apt clean && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-RUN docker-php-ext-install zip sodium
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip sodium
+
+# Install Composer globally
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-# RUN useradd -G www-data,root -u $uid -d /home/$user $user
-# RUN mkdir -p /home/$user/.composer && \
-#     chown -R $user:$user /home/$user
+
 WORKDIR /var/www
-# USER $user
 
-
+# Copy application code
 COPY . /var/www
-# RUN composer install
 
-# Set permissions for storage and bootstrap/cache directories
-RUN chmod -R u+rwX,g+rwX,o+rwX /var/www/storage && \
-    chmod -R u+rwX,g+rwX,o+rwX /var/www/bootstrap/cache && \
-    chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Set permissions
+RUN chmod -R u+rwX,g+rwX,o+rwX /var/www/storage \
+    && chmod -R u+rwX,g+rwX,o+rwX /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-
-
-# Copy the entrypoint script
+# Copy entrypoint script
 COPY docker-compose/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 80
 
 # Use the entrypoint script
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-EXPOSE 80
-
-# Use the PORT environment variable for the application
-# CMD ["php", "artisan", "serve", "--host", "0.0.0.0", "--port"]
+# Start the PHP FastCGI Process Manager
 CMD ["php-fpm"]

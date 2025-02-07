@@ -17,7 +17,7 @@ class Invoice extends Model
         'due_date',
         'status',
         'recurrence',
-        'next_invoice_date'
+        'next_invoice_date',
     ];
 
     protected $dates = ['due_date', 'next_invoice_date'];
@@ -49,7 +49,7 @@ class Invoice extends Model
 
             $formattedNumber = str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
-            $invoiceNumber = $prefix . $year . $formattedNumber;
+            $invoiceNumber = $prefix.$year.$formattedNumber;
 
         } while (self::where('invoice_number', $invoiceNumber)->exists()); // Ensure uniqueness
 

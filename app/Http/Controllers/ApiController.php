@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 
 class ApiController extends Controller
@@ -11,6 +10,6 @@ class ApiController extends Controller
 
     public function __invoke()
     {
-        return $this->okResponse("success", ["FinTrack-Ledger Api Version 1"]);
+        return $this->okResponse('success', ['FinTrack-Ledger Api Version 1']);
     }
 }

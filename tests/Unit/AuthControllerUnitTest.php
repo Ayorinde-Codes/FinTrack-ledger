@@ -4,14 +4,6 @@ namespace Tests\Unit;
 
 use App\Enums\UserRole;
 use Tests\TestCase;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Requests\AuthRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Mockery;
-use Illuminate\Support\Facades\DB;
 
 class AuthControllerUnitTest extends TestCase
 {
